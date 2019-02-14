@@ -1,0 +1,24 @@
+
+#Setting the logging levels for the service
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    com.thoughtmechanix: DEBUG
+
+eureka:
+  client:
+    #    fetch-registry: true  #注册并拉取一份本地缓存
+    #    register-with-eureka: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  #  instance:
+  #    prefer-ip-address: true  # 注册服务的ip 而不是主机的名称
+  instance:
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 10
+    ip-address: 127.0.0.1
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+server:
+  port: 8895

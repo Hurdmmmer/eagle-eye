@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: eageloserver
+  cloud:
+    config:
+      discovery:
+        enabled: false

@@ -1,0 +1,35 @@
+server:
+  port: 8888
+#spring:
+#  profiles:
+#    # 将用于存储配置的后端存储库（文件系统）。
+#    active: native
+#  cloud:
+#    config:
+#      server:
+#        native:
+#          # 使用本地文件系统创建 spring cloud 配置服务器, 再classpath中寻找，多个目录可以使用 ',' 分割
+#          # 访问地址： http://localhost:8888/{propertiesName}/{profile}
+#          # http://localhost:8888/licensingservice/prod
+#          searchLocations: classpath:config/,classpath:config/licensingservice,classpath:config/organizationservice
+
+spring:
+  application:
+    name: configserver
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Hurdmmmer/confg-repo.git
+          # 指定收拾git仓库下的文件夹
+          search-paths: zuulservice,licensingservice,organizationservice,specialroutesservice
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+
+
+

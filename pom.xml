@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.youjian.parent</groupId>
+    <artifactId>eagle-eye</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>license-service</module>
+        <module>config-server</module>
+        <module>eurekasvr</module>
+        <module>organization-service</module>
+        <module>zuul-service</module>
+        <module>special-routes</module>
+        <module>orgservice-new</module>
+        <module>eagelo-auth2</module>
+    </modules>
+    <packaging>pom</packaging>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.2.RELEASE</version>
+    </parent>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring.cloud.version>Greenwich.M3</spring.cloud.version>
+        <java.version>1.8</java.version>
+        <spring.cloud.config.version>2.1.0.M3</spring.cloud.config.version>
+        <spring.feign.version>1.4.2.RELEASE</spring.feign.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <repositories>
+        <repository>
+            <id>spring-milestone-repo</id>
+            <url>http://repo.spring.io/milestone/</url>
+        </repository>
+    </repositories>
+</project>

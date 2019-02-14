@@ -1,0 +1,62 @@
+server:
+  port: 5555
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+#spring:
+#  application:
+#    name: zuul-service
+# 配置spring cloud zuul 默认开放的管理路径
+# 默认只有开放 /actuator/info, /actuator/health
+# 可开放的： /actuator/refresh 动态刷新配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+#zuul:
+#  routes:
+#    licenseservice: /license/**
+#    organizationservice: /organization/**
+#    # 配置静态路由映射， 不需要进过 eureka 注册中心
+#    licensestatic:
+#      path: /licensestatic/**
+#      url: http://licenseservice-static:8081
+#  # 忽略zuul 所有的自动映射 eureka 的服务id
+#  ignored-services: "*"
+#  prefix: /api # 设置路由的前置匹配路径
+#是否开启路由重试
+#zuul:
+#  retryable: true
+##对当前实例的重试次数
+#ribbon:
+#  MaxAutoRetries: 1
+##切换实例的重试次数
+#  MaxAutoRetriesNextServer: 1
+##请求处理的超时时间
+#  ReadTimeout: 5000
+##请求连接的超时时间
+#  ConnectTimeout: 2000
+##对所有操作请求都进行重试
+#  OkToRetryOnAllOperations: true
+## hystrix 超时时间最好大于Ribbon的超时时间
+hystrix:
+  command:
+    licensingservice:   # --》 改选项可以指定配置某一个服务的超时时间 default 全部
+      execution:
+        isolation:
+          thread:
+            # 配置的时间超过 5 秒，你必须同时设置 Hystrix 和 Ribbon 的超时时间
+            timeoutInMilliseconds: 6000
+licensingservice:
+  ribbon:
+    ReadTimeout: 6000
+    ConnectTimeout: 6000

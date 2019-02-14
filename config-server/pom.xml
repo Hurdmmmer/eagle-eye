@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>eagle-eye</artifactId>
+        <groupId>com.youjian.parent</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+    <groupId>com.thoughtmechanix</groupId>
+    <artifactId>config-server</artifactId>
+    <name>Config Server</name>
+    <description>Config Server demo project</description>
+
+    <properties>
+        <!--docker 名称-->
+        <docker.image.name>config-server</docker.image.name>
+        <docker.image.tag>1.0-SNAPSHOT</docker.image.tag>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+            <version>${spring.cloud.config.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-server</artifactId>
+            <version>${spring.cloud.config.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>${spring.cloud.config.version}</version>
+        </dependency>
+    </dependencies>
+
+    <!--使用 spring plugin 构建先项目-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!--
+                docker 插件 执行 mvn clean package docker:build 直接打包上传到docker中
+                需要再 系统环境变量中设设置 DOCKER_HOST 远程的docker ip地址：192.168.10.1313:2375
+            -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.2.0</version>
+                <configuration>
+                    <!--构建docker镜像的名称-->
+                    <imageName>${docker.image.name}:${docker.image.tag}</imageName>
+                    <!--dockerFile 的目录-->
+                    <dockerDirectory>${pom.basedir}/src/main/docker</dockerDirectory>
+                    <buildArgs>
+                        <!--DockerFile 中使用的变量, JAR_FILE 指定为项目build后的名称-->
+                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

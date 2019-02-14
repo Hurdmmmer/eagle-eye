@@ -1,0 +1,11 @@
+spring:
+  application:
+    # 配置中心配置文件的名称 license-service-dev.yml name 这里的 applicationName 就应该是 license-service
+    name: licensingservice
+  profiles:  # 指定使用的配置中心中 profile {default，dev，test，prod}
+    active:
+      prod
+  # 指定连接的 cloudConfig 地址
+  cloud:
+    config:
+      uri: http://127.0.0.1:8888

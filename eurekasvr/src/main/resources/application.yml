@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: eurekasvr
+server:
+  port: 8761
+eureka:
+  instance:
+    ip-address: 127.0.0.1
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true
+  client:
+    fetch-registry: false
+    register-with-eureka: false
